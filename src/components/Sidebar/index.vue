@@ -27,17 +27,17 @@ const menuOptions: MenuOption[] = [
           createVNode(
             NButton,
             { block: true, size: 'large' },
-            { default: 'Add New API', icon: () => createVNode(IconAdd) }
+            { default: () => 'Add New API', icon: () => createVNode(IconAdd) }
           ),
       },
       {
         key: 'api-01',
         label: () =>
-          createVNode(NSpace, {}, [
+          createVNode(NSpace, {}, () => [
             createVNode(
               NTag,
               { bordered: false, type: 'success', class: 'sidebar__menu-item-tag' },
-              'POST'
+              () => 'POST'
             ),
             '/user',
           ]),
@@ -45,11 +45,11 @@ const menuOptions: MenuOption[] = [
       {
         key: 'api-02',
         label: () =>
-          createVNode(NSpace, {}, [
+          createVNode(NSpace, {}, () => [
             createVNode(
               NTag,
               { bordered: false, type: 'info', class: 'sidebar__menu-item-tag' },
-              'GET'
+              () => 'GET'
             ),
             '/user/256',
           ]),
@@ -91,3 +91,20 @@ export default defineComponent({
   }),
 })
 </script>
+
+<style>
+.sidebar__menu .n-menu-item-content {
+  padding-right: 0 !important;
+}
+
+.sidebar__menu .n-menu-item-content::before {
+  display: none !important;
+}
+
+.sidebar__menu-item-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 60px;
+}
+</style>
