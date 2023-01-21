@@ -1,0 +1,14 @@
+.sidebar__menu .n-menu-item-content {
+  padding-right: 0 !important;
+}
+
+.sidebar__menu .n-menu-item-content::before {
+  display: none !important;
+}
+
+.sidebar__menu-item-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 60px;
+}
