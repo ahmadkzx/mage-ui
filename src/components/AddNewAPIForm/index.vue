@@ -32,17 +32,19 @@
           </NRadioGroup>
         </NFormItem>
 
-        <NFormItem label="Data" path="data">
+        <NFormItem label="Data" path="data" vertical>
           <NMention v-model:value="api.data" type="textarea" :options="schemas" />
         </NFormItem>
+
+        <NButton type="primary" size="large" attr-type="submit" strong>Add</NButton>
       </NGridItem>
 
       <NGridItem class="add-new-api-form__section">
         <NFormItem label="Description" path="description">
           <NInput
-            class="add-new-api-form__section-input"
             type="textarea"
             placeholder="API Description"
+            class="add-new-api-form__section-input"
             v-model:value="api.description"
           />
         </NFormItem>
@@ -59,6 +61,7 @@ import {
   NForm,
   NGrid,
   NInput,
+  NButton,
   NMention,
   NGridItem,
   NFormItem,
@@ -94,6 +97,7 @@ export default defineComponent({
     NForm,
     NGrid,
     NInput,
+    NButton,
     NMention,
     NFormItem,
     NGridItem,
