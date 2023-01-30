@@ -1,5 +1,5 @@
 <template>
-  <NForm class="add-new-api-form" :model="api" :rules="rules">
+  <NForm class="add-new-api-form" :model="api" :rules="rules" @submit.prevent="addNewApi">
     <h2>Add New API</h2>
     <NGrid :cols="2" :x-gap="8">
       <NGridItem class="add-new-api-form__section">
@@ -54,9 +54,11 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios'
 import type { FormRules } from 'naive-ui'
 import { defineComponent, ref } from 'vue'
-import isJson from '@/assets/js/utils/is-json'
+import $isJson from '@/assets/js/utils/is-json'
+import $handleError from '@/assets/js/utils/handle-error'
 import {
   NForm,
   NGrid,
@@ -65,6 +67,7 @@ import {
   NMention,
   NGridItem,
   NFormItem,
+  useMessage,
   NRadioGroup,
   NRadioButton,
 } from 'naive-ui'
@@ -85,7 +88,7 @@ const formRules: FormRules = {
     trigger: 'blur',
     message: 'Please enter valid JSON',
     validator: (_, value: string) => {
-      return isJson(value)
+      return $isJson(value)
     },
   },
 }
@@ -106,14 +109,32 @@ export default defineComponent({
   },
 
   setup() {
+    const message = useMessage()
+    const api = ref({
+      name: '',
+      data: '',
+      route: '',
+      method: 'GET',
+      description: '',
+    })
+
+    window.$message = message
+
+    const addNewApi = async () => {
+      try {
+        const endpoint = import.meta.env.VITE_SERVER_URL + '/mage/api'
+        const body = { ...api }
+
+        await axios.post(endpoint, body)
+        message.success('API Created Successfully')
+      } catch (err) {
+        $handleError(err)
+      }
+    }
+
     return {
-      api: ref({
-        name: '',
-        data: '',
-        route: '',
-        method: 'GET',
-        description: '',
-      }),
+      api,
+      addNewApi,
       rules: formRules,
       schemas: [
         {
