@@ -5,7 +5,7 @@
         <NLayout has-sider>
           <Sidebar />
           <NLayoutContent content-style="padding: 8px; min-height: 100vh;">
-            <AddNewAPIForm />
+            <CreateAPIForm />
           </NLayoutContent>
         </NLayout>
       </main>
@@ -16,14 +16,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Sidebar from '@/components/Sidebar'
-import AddNewAPIForm from '@/components/AddNewAPIForm'
+import CreateAPIForm from '@/components/CreateAPIForm'
 import { NLayout, darkTheme, NLayoutContent, NConfigProvider, NMessageProvider } from 'naive-ui'
 
 export default defineComponent({
   components: {
     NLayout,
     Sidebar,
-    AddNewAPIForm,
+    CreateAPIForm,
     NLayoutContent,
     NConfigProvider,
     NMessageProvider,

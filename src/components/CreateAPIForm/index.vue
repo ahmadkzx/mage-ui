@@ -1,11 +1,11 @@
 <template>
-  <NForm class="add-new-api-form" :model="api" :rules="rules" @submit.prevent="addNewApi">
+  <NForm class="create-api-form" :model="api" :rules="rules" @submit.prevent="createAPI">
     <h2>Add New API</h2>
     <NGrid :cols="2" :x-gap="8">
-      <NGridItem class="add-new-api-form__section">
+      <NGridItem class="create-api-form__section">
         <NFormItem label="Name" path="name">
           <NInput
-            class="add-new-api-form__section-input"
+            class="create-api-form__section-input"
             type="text"
             placeholder="API Name"
             v-model:value="api.name"
@@ -14,7 +14,7 @@
 
         <NFormItem label="Route" path="route">
           <NInput
-            class="add-new-api-form__section-input"
+            class="create-api-form__section-input"
             type="text"
             placeholder="Route"
             v-model:value="api.route"
@@ -39,12 +39,12 @@
         <NButton type="primary" size="large" attr-type="submit" strong>Add</NButton>
       </NGridItem>
 
-      <NGridItem class="add-new-api-form__section">
+      <NGridItem class="create-api-form__section">
         <NFormItem label="Description" path="description">
           <NInput
             type="textarea"
             placeholder="API Description"
-            class="add-new-api-form__section-input"
+            class="create-api-form__section-input"
             v-model:value="api.description"
           />
         </NFormItem>
@@ -54,11 +54,10 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
 import type { FormRules } from 'naive-ui'
 import { defineComponent, ref } from 'vue'
+import { APICreateNewAPI } from '@/api/mage'
 import $isJson from '@/assets/js/utils/is-json'
-import $handleError from '@/assets/js/utils/handle-error'
 import {
   NForm,
   NGrid,
@@ -94,7 +93,7 @@ const formRules: FormRules = {
 }
 
 export default defineComponent({
-  name: 'AddNewAPIForm',
+  name: 'CreateAPIForm',
 
   components: {
     NForm,
@@ -120,21 +119,9 @@ export default defineComponent({
 
     window.$message = message
 
-    const addNewApi = async () => {
-      try {
-        const endpoint = import.meta.env.VITE_SERVER_URL + '/mage/api'
-        const body = { ...api }
-
-        await axios.post(endpoint, body)
-        message.success('API Created Successfully')
-      } catch (err) {
-        $handleError(err)
-      }
-    }
-
     return {
       api,
-      addNewApi,
+      createAPI: () => APICreateNewAPI(),
       rules: formRules,
       schemas: [
         {
@@ -152,11 +139,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.add-new-api-form__section {
+.create-api-form__section {
   margin-bottom: var(--size-8);
 }
 
-.add-new-api-form__section-input {
+.create-api-form__section-input {
   margin-bottom: var(--size-8);
 }
 </style>
