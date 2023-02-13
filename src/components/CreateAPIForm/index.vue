@@ -121,7 +121,7 @@ export default defineComponent({
 
     return {
       api,
-      createAPI: () => APICreateNewAPI(),
+      createAPI: () => APICreateNewAPI(api.value),
       rules: formRules,
       schemas: [
         {
