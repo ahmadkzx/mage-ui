@@ -3,7 +3,7 @@
     <NMessageProvider>
       <main>
         <NLayout has-sider>
-          <Sidebar />
+          <Sidebar :apis="apis" />
           <NLayoutContent content-style="padding: 8px; min-height: 100vh;">
             <CreateAPIForm />
           </NLayoutContent>
@@ -13,24 +13,15 @@
   </NConfigProvider>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue'
 import Sidebar from '@/components/Sidebar'
+import { APIGetAllAPIs } from './api/mage'
 import CreateAPIForm from '@/components/CreateAPIForm'
 import { NLayout, darkTheme, NLayoutContent, NConfigProvider, NMessageProvider } from 'naive-ui'
 
-export default defineComponent({
-  components: {
-    NLayout,
-    Sidebar,
-    CreateAPIForm,
-    NLayoutContent,
-    NConfigProvider,
-    NMessageProvider,
-  },
-
-  setup: () => ({
-    darkTheme,
-  }),
+let apis = ref()
+onMounted(async () => {
+  apis.value = await APIGetAllAPIs()
 })
 </script>

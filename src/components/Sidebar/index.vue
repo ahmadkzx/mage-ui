@@ -10,11 +10,29 @@
   </NLayoutSider>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import type { API } from '@/types/api'
 import type { MenuOption } from 'naive-ui'
-import { defineComponent, h as createVNode } from 'vue'
+import { h as createVNode, defineProps, ref } from 'vue'
 import { NButton, NLayoutSider, NMenu, NSpace, NTag } from 'naive-ui'
 import { AddOutline as IconAdd, LayersOutline as IconLayers } from '@vicons/ionicons5'
+
+const props = defineProps<{ apis?: Array<API> }>()
+
+let apisMenuItems = ref(
+  props.apis?.map((api) => ({
+    key: api.id,
+    label: () =>
+      createVNode(NSpace, {}, () => [
+        createVNode(
+          NTag,
+          { bordered: false, type: 'success', class: 'sidebar__menu-item-tag' },
+          () => api.method
+        ),
+        api.route,
+      ]),
+  })) || []
+)
 
 const menuOptions: MenuOption[] = [
   {
@@ -30,30 +48,7 @@ const menuOptions: MenuOption[] = [
             { default: () => 'Add New API', icon: () => createVNode(IconAdd) }
           ),
       },
-      {
-        key: 'api-01',
-        label: () =>
-          createVNode(NSpace, {}, () => [
-            createVNode(
-              NTag,
-              { bordered: false, type: 'success', class: 'sidebar__menu-item-tag' },
-              () => 'POST'
-            ),
-            '/user',
-          ]),
-      },
-      {
-        key: 'api-02',
-        label: () =>
-          createVNode(NSpace, {}, () => [
-            createVNode(
-              NTag,
-              { bordered: false, type: 'info', class: 'sidebar__menu-item-tag' },
-              () => 'GET'
-            ),
-            '/user/256',
-          ]),
-      },
+      ...apisMenuItems.value,
     ],
   },
   {
@@ -77,19 +72,6 @@ const menuOptions: MenuOption[] = [
     ],
   },
 ]
-
-export default defineComponent({
-  name: 'Sidebar',
-
-  components: {
-    NMenu,
-    NLayoutSider,
-  },
-
-  setup: () => ({
-    menuOptions,
-  }),
-})
 </script>
 
 <style>

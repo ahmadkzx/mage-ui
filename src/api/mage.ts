@@ -11,3 +11,17 @@ export async function APICreateNewAPI(body: object) {
     $handleError(err)
   }
 }
+
+export async function APIGetAllAPIs() {
+  try {
+    const endpoint = import.meta.env.VITE_SERVER_URL + '/mage/api'
+
+    const {
+      data: { data },
+    } = await axios.get(endpoint)
+
+    return data
+  } catch (err) {
+    $handleError(err)
+  }
+}
