@@ -2,6 +2,7 @@ import axios from 'axios'
 import $handleError from '@/assets/js/utils/handle-error'
 
 export async function APICreateNewAPI(body: object) {
+  // TODO: fix $handleError
   try {
     const endpoint = import.meta.env.VITE_SERVER_URL + '/mage/api'
 
@@ -13,15 +14,11 @@ export async function APICreateNewAPI(body: object) {
 }
 
 export async function APIGetAllAPIs() {
-  try {
-    const endpoint = import.meta.env.VITE_SERVER_URL + '/mage/api'
+  const endpoint = import.meta.env.VITE_SERVER_URL + '/mage/api'
 
-    const {
-      data: { data },
-    } = await axios.get(endpoint)
+  const {
+    data: { data },
+  } = await axios.get(endpoint)
 
-    return data
-  } catch (err) {
-    $handleError(err)
-  }
+  return data
 }

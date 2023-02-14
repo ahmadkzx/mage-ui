@@ -2,7 +2,7 @@
   <NConfigProvider :theme="darkTheme">
     <NMessageProvider>
       <main>
-        <NLayout v-if="!isLoading" has-sider>
+        <NLayout v-if="!isLoading && !isFailed" has-sider>
           <Sidebar :apis="apis" />
           <NLayoutContent content-style="padding: 8px; min-height: 100vh;">
             <CreateAPIForm />
@@ -11,9 +11,13 @@
 
         <NLayoutContent
           v-else
-          content-style="padding: 8px; height: 100vh; display: flex; justify-content: center;"
+          content-style="padding: 8px; height: 100vh; display: flex; justify-content: center; align-items: center;"
         >
-          <NSpin />
+          <NSpin v-if="isLoading" />
+          <NButton v-if="isFailed" type="primary" @click="getAllAPIs">
+            <template #icon><IconRefresh /></template>
+            Retry
+          </NButton>
         </NLayoutContent>
       </main>
     </NMessageProvider>
@@ -25,8 +29,11 @@ import { ref, onMounted } from 'vue'
 import Sidebar from '@/components/Sidebar'
 import { APIGetAllAPIs } from './api/mage'
 import CreateAPIForm from '@/components/CreateAPIForm'
+import $handleError from '@/assets/js/utils/handle-error'
+import { RefreshOutline as IconRefresh } from '@vicons/ionicons5'
 import {
   NSpin,
+  NButton,
   NLayout,
   darkTheme,
   NLayoutContent,
@@ -34,11 +41,23 @@ import {
   NMessageProvider,
 } from 'naive-ui'
 
-let apis = ref()
-let isLoading = ref(true)
+const apis = ref([])
+const isLoading = ref(true)
+const isFailed = ref(false)
 
-onMounted(async () => {
-  apis.value = await APIGetAllAPIs()
-  isLoading.value = false
-})
+async function getAllAPIs() {
+  try {
+    isLoading.value = true
+    isFailed.value = false
+
+    apis.value = await APIGetAllAPIs()
+  } catch (err) {
+    isFailed.value = true
+    $handleError(err)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(getAllAPIs)
 </script>
