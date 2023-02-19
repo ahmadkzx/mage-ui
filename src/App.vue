@@ -5,7 +5,7 @@
         <NLayout v-if="!isLoading && !isFailed" has-sider>
           <Sidebar :apis="apis" />
           <NLayoutContent content-style="padding: 8px; min-height: 100vh;">
-            <CreateAPIForm />
+            <router-view></router-view>
           </NLayoutContent>
         </NLayout>
 
@@ -28,7 +28,6 @@
 import { ref, onMounted } from 'vue'
 import Sidebar from '@/components/Sidebar'
 import { APIGetAllAPIs } from './api/mage'
-import CreateAPIForm from '@/components/CreateAPIForm'
 import $handleError from '@/assets/js/utils/handle-error'
 import { RefreshOutline as IconRefresh } from '@vicons/ionicons5'
 import {

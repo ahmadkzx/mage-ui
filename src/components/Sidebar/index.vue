@@ -13,11 +13,14 @@
 <script lang="ts" setup>
 import type { API } from '@/types/api'
 import type { MenuOption } from 'naive-ui'
+
+import { useRouter } from 'vue-router'
 import { h as createVNode, ref } from 'vue'
 import $methodColor from '@/assets/js/utils/method-color'
 import { NButton, NLayoutSider, NMenu, NSpace, NTag } from 'naive-ui'
 import { AddOutline as IconAdd, LayersOutline as IconLayers } from '@vicons/ionicons5'
 
+const router = useRouter()
 const props = defineProps<{ apis: Array<API> }>()
 
 let apisMenuItems = ref(
@@ -45,8 +48,8 @@ const menuOptions: MenuOption[] = [
         label: () =>
           createVNode(
             NButton,
-            { block: true, size: 'large' },
-            { default: () => 'Add New API', icon: () => createVNode(IconAdd) }
+            { block: true, size: 'large', onClick: () => router.push('/api') },
+            { default: () => 'Create API', icon: () => createVNode(IconAdd) }
           ),
       },
       ...apisMenuItems.value,
@@ -61,8 +64,8 @@ const menuOptions: MenuOption[] = [
         label: () =>
           createVNode(
             NButton,
-            { block: true, size: 'large' },
-            { default: 'Add New Schema', icon: () => createVNode(IconAdd) }
+            { block: true, size: 'large', onClick: () => router.push('/api') },
+            { default: 'Create Schema', icon: () => createVNode(IconAdd) }
           ),
       },
       {
