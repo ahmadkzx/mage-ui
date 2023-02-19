@@ -5,7 +5,7 @@
       :indent="0"
       class="sidebar__menu"
       :options="menuOptions"
-      :default-expanded-keys="['apis']"
+      :default-expanded-keys="['apis', 'schemas']"
     />
   </NLayoutSider>
 </template>
