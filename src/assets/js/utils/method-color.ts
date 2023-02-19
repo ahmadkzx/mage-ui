@@ -1,4 +1,4 @@
-import type { APIMethod } from '@/types/api'
+import type { APIMethod } from '@/types'
 
 export default function $getMethodColor(method: APIMethod) {
   switch (method) {

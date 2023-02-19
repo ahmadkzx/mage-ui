@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { API } from '@/types/api'
+import type { API, Schema } from '@/types'
 import type { MenuOption } from 'naive-ui'
 
 import { useRouter } from 'vue-router'
@@ -21,9 +21,9 @@ import { NButton, NLayoutSider, NMenu, NSpace, NTag } from 'naive-ui'
 import { AddOutline as IconAdd, LayersOutline as IconLayers } from '@vicons/ionicons5'
 
 const router = useRouter()
-const props = defineProps<{ apis: Array<API> }>()
+const props = defineProps<{ apis: Array<API>; schemas: Array<Schema> }>()
 
-let apisMenuItems = ref(
+const apisMenuItems = ref(
   props.apis.map((api) => ({
     key: api.id,
     label: () =>
@@ -35,6 +35,14 @@ let apisMenuItems = ref(
         ),
         api.route,
       ]),
+  }))
+)
+
+const schemasMenuItems = ref(
+  props.schemas.map((schema) => ({
+    key: schema.id,
+    label: schema.name,
+    icon: () => createVNode(IconLayers, null, null),
   }))
 )
 
@@ -68,11 +76,7 @@ const menuOptions: MenuOption[] = [
             { default: 'Create Schema', icon: () => createVNode(IconAdd) }
           ),
       },
-      {
-        key: 'schema-user',
-        label: 'User',
-        icon: () => createVNode(IconLayers, null, null),
-      },
+      ...schemasMenuItems.value,
     ],
   },
 ]

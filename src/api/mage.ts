@@ -13,8 +13,18 @@ export async function APICreateNewAPI(body: object) {
   }
 }
 
-export async function APIGetAllAPIs() {
+export async function APIGetAPIs() {
   const endpoint = import.meta.env.VITE_SERVER_URL + '/mage/api'
+
+  const {
+    data: { data },
+  } = await axios.get(endpoint)
+
+  return data
+}
+
+export async function APIGetSchemas() {
+  const endpoint = import.meta.env.VITE_SERVER_URL + '/mage/schema'
 
   const {
     data: { data },

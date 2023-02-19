@@ -8,3 +8,9 @@ export interface API {
   description: string | null
   method: APIMethod
 }
+
+export interface Schema {
+  id: number
+  name: string
+  data: string
+}

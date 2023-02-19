@@ -3,7 +3,7 @@
     <NMessageProvider>
       <main>
         <NLayout v-if="!isLoading && !isFailed" has-sider>
-          <Sidebar :apis="apis" />
+          <Sidebar :apis="apis" :schemas="schemas" />
           <NLayoutContent content-style="padding: 8px; min-height: 100vh;">
             <router-view></router-view>
           </NLayoutContent>
@@ -27,7 +27,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import Sidebar from '@/components/Sidebar'
-import { APIGetAllAPIs } from './api/mage'
+import { APIGetAPIs, APIGetSchemas } from './api/mage'
 import $handleError from '@/assets/js/utils/handle-error'
 import { RefreshOutline as IconRefresh } from '@vicons/ionicons5'
 import {
@@ -41,6 +41,7 @@ import {
 } from 'naive-ui'
 
 const apis = ref([])
+const schemas = ref([])
 const isLoading = ref(true)
 const isFailed = ref(false)
 
@@ -49,7 +50,10 @@ async function getAllAPIs() {
     isLoading.value = true
     isFailed.value = false
 
-    apis.value = await APIGetAllAPIs()
+    const [apisResult, schemasResult] = await Promise.all([APIGetAPIs(), APIGetSchemas()])
+
+    apis.value = apisResult
+    schemas.value = schemasResult
   } catch (err) {
     isFailed.value = true
     $handleError(err)
